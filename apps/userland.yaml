@@ -1,0 +1,31 @@
+#cloud-config
+
+packages:
+  - build-essential
+  - cmake
+  - git
+
+runcmd:
+  - FLAGS=$([ "$(uname -m)" = "aarch64" ] && echo "--aarch64")
+  - git clone https://github.com/raspberrypi/userland.git /tmp/userland && cd /tmp/userland
+  - ./buildme ${FLAGS}
+  - ldconfig
+
+write_files:
+  - path: /etc/ld.so.conf.d/userland.conf
+    owner: root
+    content: |
+      /opt/vc/lib
+
+  - path: /etc/profile.d/10-userland.sh
+    owner: root
+    content: |
+      if [ -d /opt/vc/bin ]; then
+          export PATH=/opt/vc/bin:${PATH}
+      fi
+
+  - path: /etc/sudoers.d/userland
+    owner: root
+    content: |
+      Defaults	secure_path="/opt/vc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+      %sudo		vc=(root)	/opt/vc/bin

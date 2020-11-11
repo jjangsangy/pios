@@ -1,0 +1,54 @@
+#cloud-config
+
+packages:
+  - apt-transport-https
+  - fail2ban
+  - ufw
+
+runcmd:
+  - ufw reload
+  - ufw default deny
+  - ufw allow from 192.168.0.1/24
+  - ufw allow ssh
+  - ufw limit ssh
+  - ufw allow pihole
+  - ufw allow docker
+  - ufw enable
+
+write_files:
+  - path: /etc/ufw/applications.d/10-apps
+    owner: root
+    content: |
+      [PiHole]
+      title=PiHole
+      description=PiHole UFW Config
+      ports=53,80,443,4711:4720,5053,5335/tcp|53,67,546:547,5053,5335/udp
+
+      [Docker]
+      title=Docker
+      description=Docker
+      ports=2375,2376/tcp|2375,2376/tcp
+
+  - path: /etc/default/ufw
+    owner: root
+    content: |
+      DEFAULT_APPLICATION_POLICY="SKIP"
+      DEFAULT_FORWARD_POLICY="ACCEPT"
+      DEFAULT_INPUT_POLICY="DROP"
+      DEFAULT_OUTPUT_POLICY="ACCEPT"
+      IPT_MODULES=""
+      IPT_SYSCTL=/etc/ufw/sysctl.conf
+      IPV6=no
+      MANAGE_BUILTINS=no
+
+  - path: /etc/sysctl.d/60-ip.conf
+    owner: root
+    content: |
+      net.ipv4.conf.all.forwarding=1
+      net.ipv6.conf.all.disable_ipv6=1
+      net.ipv6.conf.default.disable_ipv6=1
+
+  - path: /etc/ufw/sysctl.conf
+    append: true
+    content: |
+      net.ipv4.ip_forward=1

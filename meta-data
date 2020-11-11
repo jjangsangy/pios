@@ -1,0 +1,4 @@
+dsmode: local
+local-hostname: pi3
+
+# vi: syntax=yaml

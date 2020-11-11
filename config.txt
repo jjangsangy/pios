@@ -1,0 +1,34 @@
+[pi4]
+arm_64bit=1
+dtoverlay=vc4-fkms-v3d
+dtoverlay=disable-bt
+cmdline=cmdline-pi4.txt
+# Overclocking
+arm_freq=2000
+over_voltage=6
+gpu_mem=64
+gpu_freq=650
+max_usb_current=1
+
+[pi3]
+lcd_rotate=1
+gpu_mem=32
+dtparam=audio=off
+dtparam=i2c_arm=on
+dtparam=i2c1=on
+dtparam=spi=on
+cmdline=cmdline-pi3.txt
+
+[pi0w]
+dtoverlay=dwc2
+cmdline=cmdline-pi0w.txt
+
+[all]
+kernel=vmlinuz
+cmdline=cmdline.txt
+initramfs initrd.img followkernel
+
+# Enable the audio output, I2C and SPI interfaces on the GPIO header
+dtparam=audio=on
+dtparam=i2c_arm=on
+dtparam=spi=on

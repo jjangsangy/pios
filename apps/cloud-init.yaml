@@ -1,0 +1,96 @@
+## template: jinja
+#cloud-config
+# vim:syntax=yaml
+
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
+
+hostname: {{ local_hostname }}
+password: sang
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+locale: "en_US.UTF-8"
+timezone: America/Los_Angeles
+ssh_pwauth: no
+disable_root: true
+disable_ec2_metadata: true
+ssh_import_id:
+  - sanghan
+chpasswd:
+    expire: true
+
+groups:
+  - gpio
+  - i2c
+  - spi
+
+packages:
+  - build-essential
+  - ca-certificates
+  - curl
+  - git
+  - gnupg-agent
+  - jq
+  - mlocate
+  - net-tools
+  - pkg-config
+  - software-properties-common
+
+apt:
+  conf: |
+    APT::Get {
+      Assume-Yes "1";
+      Fix-Broken "1";
+    };
+  sources:
+    ffmpeg.list:
+      keyid: 4AB0F789CBA31744CC7DA76A8CF63AD3F06FC659
+      source: |
+        deb http://ppa.launchpad.net/jonathonf/ffmpeg-4/ubuntu bionic main
+        deb-src http://ppa.launchpad.net/jonathonf/ffmpeg-4/ubuntu bionic main
+
+growpart:
+  mode: auto
+  devices: ["/"]
+
+swap:
+  filename: /swap.img
+  maxsize: 4294967296
+  size: auto
+
+system_info:
+   default_user:
+      name: sang
+      gecos: Sang Han
+      shell: /bin/bash
+      plain_text_passwd: sang
+      sudo:
+        - ALL=(ALL:ALL) ALL
+      groups:
+        - adm
+        - admin
+        - audio
+        - cdrom
+        - dialout
+        - dip
+        - floppy
+        - gpio
+        - i2c
+        - lxd
+        - netdev
+        - plugdev
+        - render
+        - spi
+        - sudo
+        - users
+        - video
+        - www-data
+
+power_state:
+  mode: reboot
+  delay: now
+  message: Installation completed

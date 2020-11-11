@@ -1,0 +1,283 @@
+{
+    "Raspberry Pi OS": {
+        "name": "Raspberry Pi OS",
+        "description": "Other Raspberry Pi OS based images",
+        "icon": "https://downloads.raspberrypi.org/raspios_armhf/Raspberry_Pi_OS_(32-bit).png",
+        "subitems": [
+            {
+                "name": "Raspberry Pi OS Lite (32-bit)",
+                "description": "A port of Debian with no desktop environment",
+                "icon": "https://downloads.raspberrypi.org/raspios_lite_armhf/Raspberry_Pi_OS_Lite_(32-bit).png",
+                "url": "https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-08-24/2020-08-20-raspios-buster-armhf-lite.zip",
+                "extract_size": 1845493760,
+                "extract_sha256": "09ac98ea433e8cb19d09ead1a0bd439cafb1c3e4cb699af04b4e4da1f6ca3f02",
+                "image_download_size": 455166810,
+                "release_date": "2020-08-20"
+            },
+            {
+                "name": "Raspberry Pi OS (32-bit)",
+                "description": "A port of Debian with the Raspberry Pi Desktop (Recommended)",
+                "icon": "https://downloads.raspberrypi.org/raspios_armhf/Raspberry_Pi_OS_(32-bit).png",
+                "url": "https://downloads.raspberrypi.org/raspios_armhf/images/raspios_armhf-2020-08-24/2020-08-20-raspios-buster-armhf.zip",
+                "extract_size": 3821010944,
+                "extract_sha256": "96e43352b522d80c5c786e0601a3e15dc1273e3407de52ada0b1ed56c172bfd5",
+                "image_download_size": 1187281347,
+                "release_date": "2020-08-20"
+            },
+            {
+                "name": "Raspberry Pi OS Full (32-bit)",
+                "description": "A port of Debian with desktop and recommended applications",
+                "icon": "https://downloads.raspberrypi.org/raspios_full_armhf/Raspberry_Pi_OS_Full_(32-bit).png",
+                "url": "https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2020-08-24/2020-08-20-raspios-buster-armhf-full.zip",
+                "extract_size": 7352614912,
+                "extract_sha256": "d6b9ca6043944cb28d34b522039b657de08086d1644d7fa7804cbe90db4a0926",
+                "image_download_size": 2653267468,
+                "release_date": "2020-08-20"
+            }
+        ]
+    },
+    "LibreELEC": {
+        "name": "LibreELEC",
+        "description": "A Kodi Entertainment Center distribution",
+        "icon": "http://releases.libreelec.tv/noobs/LibreELEC_RPi/LibreELEC_RPi.png",
+        "subitems_url": "http://releases.libreelec.tv/os_list_imagingutility_le.json",
+        "subitems": [
+            {
+                "url": "http://releases.libreelec.tv/LibreELEC-RPi4.arm-9.2.6.img.gz",
+                "extract_size": 575668224,
+                "extract_sha256": "9a384935f654c890fd1976db4ca01930566cb33b169499cf610b1d782764002e",
+                "image_download_size": 135795494,
+                "description": "A fast and user-friendly Kodi Mediacenter distribution for RPi4",
+                "icon": "http://releases.libreelec.tv/noobs/LibreELEC_RPi/LibreELEC_RPi.png",
+                "name": "LibreELEC (RPi4)",
+                "release_date": "2020-10-24"
+            },
+            {
+                "url": "http://releases.libreelec.tv/LibreELEC-RPi2.arm-9.2.6.img.gz",
+                "extract_size": 575668224,
+                "extract_sha256": "f822e220c57c89cdc493021e8e5e40a727abd89c601beef8499593e3ae7c1c7d",
+                "image_download_size": 131985740,
+                "description": "A fast and user-friendly Kodi Mediacenter distribution for RPi2/RPi3",
+                "icon": "http://releases.libreelec.tv/noobs/LibreELEC_RPi/LibreELEC_RPi.png",
+                "name": "LibreELEC (RPi2/RPi3)",
+                "release_date": "2020-10-25"
+            },
+            {
+                "url": "http://releases.libreelec.tv/LibreELEC-RPi.arm-9.2.6.img.gz",
+                "extract_size": 575668224,
+                "extract_sha256": "1cbcd92c325586483daacc2ab100a501ace760ed0805ffd62ee23aab461f51b6",
+                "image_download_size": 131208337,
+                "description": "A fast and user-friendly Kodi Mediacenter distribution for RPi0/RPi1",
+                "icon": "http://releases.libreelec.tv/noobs/LibreELEC_RPi/LibreELEC_RPi.png",
+                "name": "LibreELEC (RPi0/RPi1)",
+                "release_date": "2020-10-24"
+            }
+        ]
+    },
+    "Ubuntu": {
+        "name": "Ubuntu",
+        "description": "Choose from Ubuntu Desktop, Server, and Core images",
+        "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+        "subitems_url": "https://changelogs.ubuntu.com/raspi/os_list_imagingutility_ubuntu.json",
+        "subitems": [
+            {
+                "name": "Ubuntu Desktop 20.10 (RPi 4/400)",
+                "description": "64-bit desktop OS for Pi 4 models with 4Gb+",
+                "url": "http://cdimage.ubuntu.com/releases/groovy/release/ubuntu-20.10-preinstalled-desktop-arm64+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 8750736384,
+                "extract_sha256": "c0b0df409cf2ba00d0da2073772cbf2183ca4f7810c231514b78bd39a517968b",
+                "image_download_size": 1676877588,
+                "release_date": "2020-10-22",
+                "image_download_sha256": "2fa19fb53fe0144549ff722d9cd755d9c12fb508bb890926bfe7940c0b3555e8"
+            },
+            {
+                "name": "Ubuntu Server 20.10 (RPi 2/3/4/400)",
+                "description": "32-bit server OS for armhf architectures",
+                "url": "http://cdimage.ubuntu.com/releases/groovy/release/ubuntu-20.10-preinstalled-server-armhf+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 3027323904,
+                "extract_sha256": "2e387890131a36c02a46ec4c9b225149e3fced5e48216645b5b51697795d6ee5",
+                "image_download_size": 707138636,
+                "release_date": "2020-10-22",
+                "image_download_sha256": "941752f93313ba765069b48f38af18bbf961bebefcc9c4296a953cf1260f0fe1"
+            },
+            {
+                "name": "Ubuntu Server 20.10 (RPi 3/4/400)",
+                "description": "64-bit server OS for arm64 architectures",
+                "url": "http://cdimage.ubuntu.com/releases/groovy/release/ubuntu-20.10-preinstalled-server-arm64+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 3348034560,
+                "extract_sha256": "540f8a3535808b0867836b551fe492c255919cae099ad8fdb4a4f983d656e222",
+                "image_download_size": 740378040,
+                "release_date": "2020-10-22",
+                "image_download_sha256": "73a98e83fbb6398f86902c7a83c826536f1afbd0be2d80cb0d7faa94ede33137"
+            },
+            {
+                "name": "Ubuntu Server 20.04.1 LTS (RPi 2/3/4)",
+                "description": "32-bit server OS with long-term support for armhf architectures",
+                "url": "http://cdimage.ubuntu.com/releases/focal/release/ubuntu-20.04.1-preinstalled-server-armhf+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 2947279872,
+                "extract_sha256": "06cfc23ab9c1b079f33b1f480c3b8cf801d42928cd07ca66aecb9e5d16ddb5ed",
+                "image_download_size": 676987704,
+                "release_date": "2020-07-31",
+                "image_download_sha256": "bfd1eee56f7e346e1645666fc184af854c536b3ab4e1ce49d06c266f21b1ee46"
+            },
+            {
+                "name": "Ubuntu Server 20.04.1 LTS (RPi 3/4)",
+                "description": "64-bit server OS with long-term support for arm64 architectures",
+                "url": "http://cdimage.ubuntu.com/releases/focal/release/ubuntu-20.04.1-preinstalled-server-arm64+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 3250824192,
+                "extract_sha256": "77ebb169966e71da876fed84fe3649dd3a082d14e3f3759163b5cebc57ab6b8d",
+                "image_download_size": 709108132,
+                "release_date": "2020-07-31",
+                "image_download_sha256": "aadc64a1d069c842e56a4289fe1a6b4b5a0af4efcf95bcce78eb2a80fe5270f4"
+            },
+            {
+                "name": "Ubuntu Core 18 (RPi 2/3/4)",
+                "description": "Ubuntu Core 18 32-bit IoT OS for armhf architectures",
+                "url": "http://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-armhf+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 704222208,
+                "extract_sha256": "b49f2630b3cbf2bbb38ddf4a439385d71145886b74ecb0389b2453551557d0f3",
+                "image_download_size": 317210384,
+                "release_date": "2020-08-12",
+                "image_download_sha256": "64e409930ecada7d110c6f63920846e4f30899dbc08d633e1a4cec9fc1aa70ab"
+            },
+            {
+                "name": "Ubuntu Core 18 (RPi 3/4)",
+                "description": "Ubuntu Core 18 64-bit IoT OS for arm64 architectures",
+                "url": "http://cdimage.ubuntu.com/ubuntu-core/18/stable/current/ubuntu-core-18-arm64+raspi.img.xz",
+                "icon": "https://assets.ubuntu.com/v1/85a9de76-ubuntu-icon.svg",
+                "extract_size": 713634816,
+                "extract_sha256": "2656f043f4b23c900203349cca39e894c0a52e30a7b28f50a292b4198d0bfa5e",
+                "image_download_size": 323746140,
+                "release_date": "2020-08-12",
+                "image_download_sha256": "032f3979e83b17987c98634b1a69695b1e8c93ba7fe3b1849c4e9de896e2a039"
+            }
+        ]
+    },
+    "RetroPie": {
+        "name": "RetroPie",
+        "description": "Turn your Raspberry Pi into a retro-gaming machine",
+        "icon": "https://retropie.org.uk/retropie-logo-40x40.png",
+        "subitems_url": "https://retropie.org.uk/os_list_imagingutility.json",
+        "subitems": [
+            {
+                "url": "https://github.com/RetroPie/RetroPie-Setup/releases/download/4.7.1/retropie-buster-4.7.1-rpi1_zero.img.gz",
+                "extract_size": 3041918976,
+                "extract_sha256": "54772197a0479d0b08e5bed6951af7999333af3bf16da24eacd2232840e8cf83",
+                "image_download_size": 875965779,
+                "description": "Turn your Raspberry Pi into a retro-gaming machine.",
+                "icon": "https://retropie.org.uk/retropie-logo-40x40.png",
+                "name": "RetroPie 4.7.1 (RPI 1/Zero)",
+                "release_date": "2020-11-04"
+            },
+            {
+                "url": "https://github.com/RetroPie/RetroPie-Setup/releases/download/4.7.1/retropie-buster-4.7.1-rpi2_3.img.gz",
+                "extract_size": 3099590656,
+                "extract_sha256": "5b3608819ded413b6f276f4e79368f535eb36074261563be42dba73b96b99ab8",
+                "image_download_size": 882620252,
+                "description": "Turn your Raspberry Pi into a retro-gaming machine.",
+                "icon": "https://retropie.org.uk/retropie-logo-40x40.png",
+                "name": "RetroPie 4.7.1 (RPI 2/3)",
+                "release_date": "2020-11-04"
+            },
+            {
+                "url": "https://github.com/RetroPie/RetroPie-Setup/releases/download/4.7.1/retropie-buster-4.7.1-rpi4_400.img.gz",
+                "extract_size": 3110076416,
+                "extract_sha256": "1d72389d45cb90f7ee6e45424b87877415837eaf6790961aad7ab52fd8053653",
+                "image_download_size": 886385316,
+                "description": "Turn your Raspberry Pi into a retro-gaming machine.",
+                "icon": "https://retropie.org.uk/retropie-logo-40x40.png",
+                "name": "RetroPie 4.7.1 (RPI 4/400)",
+                "release_date": "2020-11-04"
+            }
+        ]
+    },
+    "RISC OS Pi": {
+        "name": "RISC OS Pi",
+        "description": "A fast and easily customised operating system for ARM devices",
+        "icon": "http://packages.riscosopen.org/rpi_imager/RISC_OS.png",
+        "subitems_url": "http://packages.riscosopen.org/rpi_imager/os_list_imagingutility.json",
+        "subitems": [
+            {
+                "url": "http://packages.riscosopen.org/rpi_imager/ROPi_528.img.xz",
+                "extract_size": 1966080000,
+                "extract_sha256": "6afb75b2d7019ed2c5eb9d729366471fa83eeea66519dc3dd8d246a740bd6151",
+                "image_download_size": 110293704,
+                "description": "For Pi models Zero, ZeroW, 1A(+), 1B(+), 2B, 3A+, 3B(+), 4B, Compute Module 1 & 3(+)",
+                "icon": "http://packages.riscosopen.org/rpi_imager/RISC_OS.png",
+                "name": "RISC OS (5.28)",
+                "release_date": "2020-10-19"
+            },
+            {
+                "url": "http://packages.riscosopen.org/rpi_imager/ROPi_524.img.xz",
+                "extract_size": 1966080000,
+                "extract_sha256": "6a3aecb1507ad6f49751df169b7f46015dac5849aea87cfce7dff60b7b82c7f6",
+                "image_download_size": 104687036,
+                "description": "For Pi models Zero, ZeroW, 1A(+), 1B(+), 2B, 3B(+), Compute Module 1 & 3",
+                "icon": "http://packages.riscosopen.org/rpi_imager/RISC_OS.png",
+                "name": "RISC OS (5.24)",
+                "release_date": "2018-10-23"
+            }
+        ]
+    },
+    "TLXOS": {
+        "name": "TLXOS",
+        "description": "30-day trial of ThinLinX's Debian-based thin client for Raspberry Pi",
+        "icon": "http://rpi.thinlinx.com/NOOBS/TLX_RPi/TLXOS.png",
+        "subitems_url": "http://rpi.thinlinx.com/rpi-imager/rpi-imager.json",
+        "subitems": [
+            {
+                "name": "TLXOS RPi 4.9.1 (latest)",
+                "description": "30-day trial of Debian-based thin client for Raspberry Pi 2, 3 and 4",
+                "icon": "http://rpi.thinlinx.com/NOOBS/TLX_RPi/TLXOS.png",
+                "url": "http://rpi.thinlinx.com/rpi-imager/rpi-4.9.1.img.xz",
+                "extract_size": 1260388352,
+                "extract_sha256": "747f2fc25d043b48bfab501e41d91a7b9d3609425f1536c1c66119ff0887db88",
+                "image_download_size": 495252344,
+                "release_date": "2020-10-25"
+            },
+            {
+                "name": "TLXOS RPi 4.8.0 (LTS)",
+                "description": "30-day trial of Debian-based thin client for Raspberry Pi 2, 3 and 4",
+                "icon": "http://rpi.thinlinx.com/NOOBS/TLX_RPi/TLXOS.png",
+                "url": "http://rpi.thinlinx.com/rpi-imager/rpi-4.8.0.img.xz",
+                "extract_size": 1260388352,
+                "extract_sha256": "d27a8ed9282c42ba9b70b1ae470087901c2890663ba59510492f8fda55791efc",
+                "image_download_size": 342257264,
+                "release_date": "2020-06-15"
+            },
+            {
+                "name": "TLXOS RPi IoT 4.8.0 (LTS)",
+                "description": "30-day trial of Raspbian-based thin client for Raspberry Pi 1 and Zero",
+                "icon": "http://rpi.thinlinx.com/NOOBS/TLX_RPi/TLXOS.png",
+                "url": "http://rpi.thinlinx.com/rpi-imager/rpiiot-4.8.0.img.xz",
+                "extract_size": 1260388352,
+                "extract_sha256": "6b6c94ee4cf53db8506cae93736e1047fc4ffbb6f5e97f8e2d60295cd7c6f113",
+                "image_download_size": 277854304,
+                "release_date": "2020-06-15"
+            }
+        ]
+    },
+    "Misc utility images": {
+        "name": "Misc utility images",
+        "description": "EEPROM recovery, etc.",
+        "icon": "icons/ic_build_48px.svg",
+        "subitems": [
+            {
+                "name": "Raspberry Pi 4 EEPROM boot recovery",
+                "description": "Use this only if advised to do so",
+                "icon": "https://downloads.raspberrypi.org/raspios_armhf/Raspberry_Pi_OS_(32-bit).png",
+                "url": "https://github.com/raspberrypi/rpi-eeprom/releases/download/v2020.09.03-138a1/rpi-boot-eeprom-recovery-2020-09-03-vl805-000138a1.zip",
+                "contains_multiple_files": true,
+                "extract_size": 722892,
+                "image_download_size": 298096,
+                "release_date": "2020-09-14"
+            }
+        ]
+    }
+}

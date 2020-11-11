@@ -1,0 +1,34 @@
+#cloud-config
+
+groups:
+  - docker
+
+packages:
+  - cgroup-tools
+  - docker-ce
+  - docker-ce-cli
+
+runcmd:
+  - curl -sSL https://get.docker.com | sh
+
+write_files:
+  - path: /etc/docker/daemon.json
+    owner: root
+    content: |
+      {
+          "exec-opts": ["native.cgroupdriver=systemd"],
+          "experimental": true,
+          "features": {"buildkit": true}
+      }
+
+apt:
+  sources:
+    docker.list:
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      source: |
+        deb https://download.docker.com/linux/ubuntu focal stable
+
+system_info:
+  default_user:
+    groups:
+      - docker

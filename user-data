@@ -1,0 +1,238 @@
+## template: jinja
+#cloud-config
+# vim:syntax=yaml
+
+hostname: {{ local_hostname }}
+password: sang
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+locale: "en_US.UTF-8"
+timezone: America/Los_Angeles
+ssh_pwauth: no
+disable_root: true
+disable_ec2_metadata: true
+ssh_import_id:
+  - sanghan
+chpasswd:
+    expire: true
+
+groups:
+  - docker
+  - gpio
+  - i2c
+  - pihole
+  - spi
+
+packages:
+  - apt-transport-https
+  - build-essential
+  - ca-certificates
+  - cgroup-tools
+  - cmake
+  - curl
+  - fail2ban
+  - git
+  - gnupg-agent
+  - jq
+  - mlocate
+  - neovim
+  - net-tools
+  - obfs4proxy
+  - pkg-config
+  - software-properties-common
+  - tor
+  - torsocks
+  - ufw
+  - unbound
+
+runcmd:
+  - systemctl restart unbound
+  - update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 100
+  - git clone https://github.com/raspberrypi/userland.git /tmp/userland; cd /tmp/userland; ./buildme $([ "$(uname -m)" = "aarch64" ] && echo "--aarch64") && lconfig
+  - curl -sSL https://get.docker.com | sh
+  - curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+  - for line in $(curl -LSs https://v.firebog.net/hosts/lists.php?type=tick); do sqlite3 /etc/pihole/gravity.db "insert or ignore into adlist (address, comment, enabled) values (\"$line\", 'firebog', 1);"; done
+  - pihole -w {api,edge-mqtt,graph,mtt.c10rstar.c10r}.facebook.com portal.fb.com && pihole -g restartdns reload-lists
+  - pihole -a -p raspberry
+  - ufw reload && ufw default deny && ufw allow from 192.168.0.1/24 ufw allow ssh && ufw limit ssh && ufw allow pihole && ufw allow docker && ufw enable
+  - setcap 'cap_net_bind_service=+ep' /usr/bin/obfs4proxy
+  - sed -i "s/^NoNewPrivileges=yes/NoNewPrivileges=no/g" /lib/systemd/system/tor@{,default}.service
+  - systemctl daemon-reload && systemctl restart tor
+
+write_files:
+  # PiHole
+  - path: /etc/pihole/setupVars.conf
+    owner: root
+    content: |
+      API_PRIVACY_MODE=false
+      API_QUERY_LOG_SHOW=all
+      BLOCKING_ENABLED=true
+      DNS_BOGUS_PRIV=true
+      DNS_FQDN_REQUIRED=true
+      DNSMASQ_LISTENING=single
+      DNSSEC=true
+      INSTALL_WEB_INTERFACE=true
+      INSTALL_WEB_SERVER=true
+      INSTALL_WEB=true
+      IPV4_ADDRESS="$(hostname -I | awk '{print $1}' | sed -e 's/[[:space:]]*$//')/24"
+      IPV6_ADDRESS=
+      LIGHTTPD_ENABLED=true
+      PIHOLE_DNS_1=127.0.0.1#5335
+      PIHOLE_DNS_2=
+      PIHOLE_INTERFACE="$(ip neigh | grep -v '192\.168\.1\.1[[:space:]]' | uniq | head -n1 | cut -f3 -d ' ')"
+      QUERY_LOGGING=true
+      REV_SERVER_CIDR=192.168.1.0/24
+      REV_SERVER_DOMAIN=
+      REV_SERVER_TARGET=192.168.1.1
+      REV_SERVER=true
+      TEMPERATUREUNIT=C
+  - path: /etc/unbound/unbound.conf.d/pi-hole.conf
+    owner: root
+    content: |
+      server:
+          verbosity: 0
+          interface: 127.0.0.1
+          port: 5335
+          do-ip4: yes
+          do-udp: yes
+          do-tcp: yes
+          do-ip6: no
+          prefer-ip6: no
+          harden-glue: yes
+          harden-dnssec-stripped: yes
+          use-caps-for-id: no
+          edns-buffer-size: 1472
+          prefetch: yes
+          num-threads: 1
+          so-rcvbuf: 1m
+          private-address: 192.168.0.0/16
+          private-address: 169.254.0.0/16
+          private-address: 172.16.0.0/12
+          private-address: 10.0.0.0/8
+          private-address: fd00::/8
+          private-address: fe80::/10
+
+  # Firewall
+  - path: /etc/ufw/applications.d/10-apps
+    owner: root
+    content: |
+      [PiHole]
+      title=PiHole
+      description=PiHole UFW Config
+      ports=53,80,443,4711:4720,5053,5335/tcp|53,67,546:547,5053,5335/udp
+
+      [Docker]
+      title=Docker
+      description=Docker
+      ports=2375,2376/tcp|2375,2376/tcp
+  - path: /etc/default/ufw
+    owner: root
+    content: |
+      DEFAULT_APPLICATION_POLICY="SKIP"
+      DEFAULT_FORWARD_POLICY="ACCEPT"
+      DEFAULT_INPUT_POLICY="DROP"
+      DEFAULT_OUTPUT_POLICY="ACCEPT"
+      IPT_MODULES=""
+      IPT_SYSCTL=/etc/ufw/sysctl.conf
+      IPV6=no
+      MANAGE_BUILTINS=no
+  - path: /etc/sysctl.d/60-ip.conf
+    owner: root
+    content: |
+      net.ipv4.conf.all.forwarding=1
+      net.ipv6.conf.all.disable_ipv6=1
+      net.ipv6.conf.default.disable_ipv6=1
+  - path: /etc/ufw/sysctl.conf
+    append: true
+    content: |
+      net.ipv4.ip_forward=1
+
+  # Userland
+  - path: /etc/ld.so.conf.d/userland.conf
+    owner: root
+    content: |
+      /opt/vc/lib
+  - path: /etc/profile.d/10-userland.sh
+    owner: root
+    content: |
+      if [ -d /opt/vc/bin ]; then
+          export PATH=/opt/vc/bin:${PATH}
+      fi
+  - path: /etc/sudoers.d/userland
+    owner: root
+    content: |
+      Defaults	secure_path="/opt/vc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+      %sudo		vc=(root)	/opt/vc/bin
+
+  # Docker
+  - path: /etc/docker/daemon.json
+    owner: root
+    content: |
+      {
+          "exec-opts": ["native.cgroupdriver=systemd"],
+          "experimental": true,
+          "features": {"buildkit": true}
+      }
+
+apt:
+  conf: |
+    APT::Get {
+      Assume-Yes "1";
+      Fix-Broken "1";
+    };
+  sources:
+    ffmpeg.list:
+      keyid: 4AB0F789CBA31744CC7DA76A8CF63AD3F06FC659
+      source: |
+        deb http://ppa.launchpad.net/jonathonf/ffmpeg-4/ubuntu bionic main
+        deb-src http://ppa.launchpad.net/jonathonf/ffmpeg-4/ubuntu bionic main
+    docker.list:
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      source: |
+        deb https://download.docker.com/linux/ubuntu focal stable
+
+growpart:
+  mode: auto
+  devices: ["/"]
+
+swap:
+  filename: /swap.img
+  maxsize: 4294967296
+  size: auto
+
+system_info:
+   default_user:
+      name: sang
+      gecos: Sang Han
+      shell: /bin/bash
+      plain_text_passwd: sang
+      sudo:
+        - ALL=(ALL:ALL) ALL
+      groups:
+        - adm
+        - admin
+        - audio
+        - cdrom
+        - debian-tor
+        - dialout
+        - dip
+        - docker
+        - floppy
+        - gpio
+        - i2c
+        - lxd
+        - netdev
+        - pihole
+        - plugdev
+        - render
+        - spi
+        - sudo
+        - users
+        - video
+        - www-data
+
+power_state:
+  mode: reboot
+  delay: now
+  message: Installation completed

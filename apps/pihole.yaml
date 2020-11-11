@@ -1,0 +1,71 @@
+#cloud-config
+
+groups:
+  - pihole
+
+packages:
+  - unbound
+
+runcmd:
+  - systemctl restart unbound
+  - curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+  - for line in $(curl -LSs https://v.firebog.net/hosts/lists.php?type=tick); do sqlite3 /etc/pihole/gravity.db "insert or ignore into adlist (address, comment, enabled) values (\"$line\", 'firebog', 1);"; done
+  - pihole -w {api,edge-mqtt,graph,mtt.c10rstar.c10r}.facebook.com portal.fb.com && pihole -g restartdns reload-lists
+  - pihole -a -p raspberry
+
+write_files:
+  - path: /etc/pihole/setupVars.conf
+    owner: root
+    content: |
+      API_PRIVACY_MODE=false
+      API_QUERY_LOG_SHOW=all
+      BLOCKING_ENABLED=true
+      DNS_BOGUS_PRIV=true
+      DNS_FQDN_REQUIRED=true
+      DNSMASQ_LISTENING=single
+      DNSSEC=true
+      INSTALL_WEB_INTERFACE=true
+      INSTALL_WEB_SERVER=true
+      INSTALL_WEB=true
+      IPV4_ADDRESS="$(hostname -I | awk '{print $1}' | sed -e 's/[[:space:]]*$//')/24"
+      IPV6_ADDRESS=
+      LIGHTTPD_ENABLED=true
+      PIHOLE_DNS_1=127.0.0.1#5335
+      PIHOLE_DNS_2=
+      PIHOLE_INTERFACE="$(ip neigh | grep -v '192\.168\.1\.1[[:space:]]' | uniq | head -n1 | cut -f3 -d ' ')"
+      QUERY_LOGGING=true
+      REV_SERVER_CIDR=192.168.1.0/24
+      REV_SERVER_DOMAIN=
+      REV_SERVER_TARGET=192.168.1.1
+      REV_SERVER=true
+      TEMPERATUREUNIT=C
+  - path: /etc/unbound/unbound.conf.d/pi-hole.conf
+    owner: root
+    content: |
+      server:
+          verbosity: 0
+          interface: 127.0.0.1
+          port: 5335
+          do-ip4: yes
+          do-udp: yes
+          do-tcp: yes
+          do-ip6: no
+          prefer-ip6: no
+          harden-glue: yes
+          harden-dnssec-stripped: yes
+          use-caps-for-id: no
+          edns-buffer-size: 1472
+          prefetch: yes
+          num-threads: 1
+          so-rcvbuf: 1m
+          private-address: 192.168.0.0/16
+          private-address: 169.254.0.0/16
+          private-address: 172.16.0.0/12
+          private-address: 10.0.0.0/8
+          private-address: fd00::/8
+          private-address: fe80::/10
+
+system_info:
+  default_user:
+    groups:
+      - pihole
