@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
-declare INFO_URL="https://changelogs.ubuntu.com/raspi/os_list_imagingutility_ubuntu.json"
+declare INFO_URL='https://changelogs.ubuntu.com/raspi/os_list_imagingutility_ubuntu.json'
 
 # Image Type [Server | Desktop]
 declare IMG_TYPE='Server'
 
 # Ubuntu Version [20.04 | 20.10]
-declare VERSION='20.04'
+declare VERSION='20.10'
 
 # Machine Architecture: [armhf | arm64]
-declare MACHINE='armhf'
+declare MACHINE='arm64'
 
 function query {
     local q="${1:-'.'}"
@@ -18,7 +18,7 @@ function query {
 }
 
 function errecho {
-    echo "$(tput setaf 1)${@}$(tput sgr0)" >&2
+    echo "$(tput setaf 1)${*}$(tput sgr0)" >&2
 }
 
 function archive_name {
@@ -115,7 +115,7 @@ function write_image {
     fi
 }
 
-function main {
+function run_all {
     set -euo pipefail
     local filename=$(image_name)
     if ! [ -e "${filename}" ]; then
@@ -124,7 +124,7 @@ function main {
     write_image "${filename}"
 }
 
-declare -x IMG_INFO=${IMG_INFO:-$(curl -LSs ${INFO_URL} | jq -r "[.os_list[] | select(.name | test(\"${IMG_TYPE} ${VERSION}\")) | select(.url | test(\"${MACHINE}\"))][0]")}
+declare -x IMG_INFO=$(curl -LSs ${INFO_URL} | jq -r "[.os_list[] | select(.name | test(\"${IMG_TYPE} ${VERSION}\")) | select(.url | test(\"${MACHINE}\"))][0]")
 declare -A INFO=(
     [name]="$(query '.name')"
     [url]="$(query '.url')"
@@ -135,7 +135,7 @@ declare -A INFO=(
 
 if [ "${0}" = "${BASH_SOURCE}" ]; then
     if [ "${OSNAME}" = "Darwin" ]; then
-        main
+        $@
     else
         errecho "Script only works on MacOS"
     fi
