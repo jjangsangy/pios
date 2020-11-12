@@ -47,7 +47,7 @@ packages:
   - unbound
 
 runcmd:
-  - systemctl restart unbound
+  - systemctl restart --no-block unbound
   - update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 100
   - git clone https://github.com/raspberrypi/userland.git /tmp/userland; cd /tmp/userland; ./buildme $([ "$(uname -m)" = "aarch64" ] && echo "--aarch64") && lconfig
   - curl -sSL https://get.docker.com | sh
@@ -55,7 +55,7 @@ runcmd:
   - for line in $(curl -LSs https://v.firebog.net/hosts/lists.php?type=tick); do sqlite3 /etc/pihole/gravity.db "insert or ignore into adlist (address, comment, enabled) values (\"$line\", 'firebog', 1);"; done
   - pihole -w {api,edge-mqtt,graph,mtt.c10rstar.c10r}.facebook.com portal.fb.com && pihole -g restartdns reload-lists
   - pihole -a -p raspberry
-  - ufw reload && ufw default deny && ufw allow from 192.168.0.1/24 ufw allow ssh && ufw limit ssh && ufw allow pihole && ufw allow docker && ufw enable
+  - ufw reload && ufw default deny && ufw allow from 192.168.1.1/24 && ufw allow ssh && ufw limit ssh && ufw allow pihole && ufw allow docker && ufw enable
   - setcap 'cap_net_bind_service=+ep' /usr/bin/obfs4proxy
   - sed -i "s/^NoNewPrivileges=yes/NoNewPrivileges=no/g" /lib/systemd/system/tor@{,default}.service
   - systemctl daemon-reload && systemctl restart tor
